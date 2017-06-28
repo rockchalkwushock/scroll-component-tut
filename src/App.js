@@ -1,21 +1,40 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+
+import { ScrollElement, ScrollView } from './scroll'
+import items from './data'
+import './App.css'
+
+console.log(items)
 
 class App extends Component {
+  scrollTo = name => {
+    this._scroller.scrollTo(name)
+  }
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="app">
+        {items.map(({ name }) =>
+          <button key={Math.random()} onClick={() => this.scrollTo(name)}>
+            {name}
+          </button>
+        )}
+        <ScrollView ref={scroller => (this._scroller = scroller)}>
+          <div className="scroller">
+            {items.map(({ name, image }) => {
+              return (
+                <ScrollElement key={Math.random()} name={name}>
+                  <div className="item">
+                    <img src={image} alt={Math.random()} />
+                    {name}
+                  </div>
+                </ScrollElement>
+              )
+            })}
+          </div>
+        </ScrollView>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
